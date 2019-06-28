@@ -2,6 +2,12 @@
 name = "infuse"
 version = "0.1.0"
 authors = ["shockham <samuel.hockham@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/shockham/infuse"
+homepage = "https://github.com/shockham/infuse"
+documentation = "https://docs.rs/infuse"
+description = "Minimalist wasm based webgl renderer"
 edition = "2018"
 
 [dependencies]
