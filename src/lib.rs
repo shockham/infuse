@@ -8,13 +8,15 @@ use std::collections::HashMap;
 pub struct RenderItem {
     vertices: Vec<f32>,
     shader_name: String,
+    uniforms: Option<HashMap<String, (f32, f32, f32, f32)>>,
 }
 
 impl RenderItem {
-    pub fn new(vertices: Vec<f32>, shader_name: String) -> RenderItem {
+    pub fn new(vertices: Vec<f32>, shader_name: String, uniforms: Option<HashMap<String, (f32, f32, f32, f32)>>) -> RenderItem {
         RenderItem {
             vertices,
             shader_name,
+            uniforms,
         }
     }
 }
@@ -59,13 +61,24 @@ impl Renderer {
         Ok(renderer)
     }
 
-    pub fn draw(self, render_items: Vec<RenderItem>) -> Result<(), JsValue> {
+    pub fn draw(
+        self,
+        render_items: Vec<RenderItem>,
+    ) -> Result<(), JsValue> {
         self.context.clear_color(0.0, 0.0, 0.0, 1.0);
 
         for render_item in render_items {
             let shader_name = render_item.shader_name;
             let program = self.shaders.get(shader_name.as_str()).unwrap();
             self.context.use_program(Some(&program));
+
+            if let Some(uni) = render_item.uniforms {
+                for (key, value) in uni.iter() {
+                    let location = self.context.get_uniform_location(program, key.as_str());
+                    self.context
+                        .uniform4f(location.as_ref(), value.0, value.1, value.2, value.3);
+                }
+            }
 
             let vertices = render_item.vertices;
             let memory_buffer = wasm_bindgen::memory()
