@@ -12,7 +12,11 @@ pub struct RenderItem {
 }
 
 impl RenderItem {
-    pub fn new(vertices: Vec<f32>, shader_name: String, uniforms: Option<HashMap<String, (f32, f32, f32, f32)>>) -> RenderItem {
+    pub fn new(
+        vertices: Vec<f32>,
+        shader_name: String,
+        uniforms: Option<HashMap<String, (f32, f32, f32, f32)>>,
+    ) -> RenderItem {
         RenderItem {
             vertices,
             shader_name,
@@ -61,10 +65,7 @@ impl Renderer {
         Ok(renderer)
     }
 
-    pub fn draw(
-        self,
-        render_items: Vec<RenderItem>,
-    ) -> Result<(), JsValue> {
+    pub fn draw(self, render_items: Vec<RenderItem>) -> Result<(), JsValue> {
         self.context.clear_color(0.0, 0.0, 0.0, 1.0);
 
         for render_item in render_items {

@@ -3,6 +3,7 @@ target
 Cargo.lock
 node_modules
 yarn.lock
+yarn-error.log
 dist
 wasm-pack.log
 pkg
