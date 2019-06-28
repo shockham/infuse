@@ -1,4 +1,7 @@
 # infuse
+[![crates.io version](https://img.shields.io/crates/v/infuse.svg)](https://crates.io/crates/infuse)
+[![Build status](https://travis-ci.org/shockham/infuse.svg?branch=master)](https://travis-ci.org/shockham/infuse)
+[![Documentation](https://docs.rs/infuse/badge.svg)](https://docs.rs/infuse)
 
 Minimalist wasm based webgl renderer.
 
