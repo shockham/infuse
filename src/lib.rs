@@ -73,15 +73,15 @@ impl Renderer {
         Ok(renderer)
     }
 
-    pub fn draw(self, render_items: Vec<RenderItem>) -> Result<(), JsValue> {
+    pub fn draw(self, render_items: &Vec<RenderItem>) -> Result<(), JsValue> {
         self.context.clear_color(0.0, 0.0, 0.0, 1.0);
 
         for render_item in render_items {
-            let shader_name = render_item.shader_name;
+            let shader_name = &render_item.shader_name;
             let program = self.shaders.get(shader_name.as_str()).unwrap();
             self.context.use_program(Some(&program));
 
-            if let Some(uni) = render_item.uniforms {
+            if let Some(uni) = &render_item.uniforms {
                 for (key, value) in uni.iter() {
                     let location = self.context.get_uniform_location(program, key.as_str());
                     self.context
@@ -89,7 +89,7 @@ impl Renderer {
                 }
             }
 
-            let vertices = render_item.vertices;
+            let vertices = &render_item.vertices;
             let memory_buffer = wasm_bindgen::memory()
                 .dyn_into::<WebAssembly::Memory>()?
                 .buffer();

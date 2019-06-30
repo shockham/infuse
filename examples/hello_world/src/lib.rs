@@ -16,7 +16,7 @@ pub fn start() -> Result<(), JsValue> {
 
     let render_items = vec![render_item];
 
-    renderer.draw(render_items)?;
+    renderer.draw(&render_items)?;
 
     Ok(())
 }

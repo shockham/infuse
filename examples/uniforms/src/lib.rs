@@ -34,7 +34,7 @@ pub fn start() -> Result<(), JsValue> {
 
     render_items[0].set_uniform("colour".to_string(), (0.6f32, 0.6f32, 0.6f32, 1f32));
 
-    renderer.draw(render_items)?;
+    renderer.draw(&render_items)?;
 
     Ok(())
 }
