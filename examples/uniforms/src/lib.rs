@@ -30,7 +30,9 @@ pub fn start() -> Result<(), JsValue> {
         Some(uniforms),
     );
 
-    let render_items = vec![render_item];
+    let mut render_items = vec![render_item];
+
+    render_items[0].set_uniform("colour".to_string(), (0.6f32, 0.6f32, 0.6f32, 1f32));
 
     renderer.draw(render_items)?;
 

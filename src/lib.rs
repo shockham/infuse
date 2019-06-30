@@ -25,6 +25,14 @@ impl RenderItem {
     }
 }
 
+impl RenderItem {
+    pub fn set_uniform(&mut self, name: String, value: (f32, f32, f32, f32)) {
+        if let Some(uniforms) = self.uniforms.as_mut() {
+            uniforms.insert(name, value);
+        }
+    }
+}
+
 pub struct Renderer {
     context: WebGlRenderingContext,
     shaders: HashMap<String, WebGlProgram>,
