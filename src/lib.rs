@@ -73,7 +73,7 @@ impl Renderer {
         Ok(renderer)
     }
 
-    pub fn draw(self, render_items: &Vec<RenderItem>) -> Result<(), JsValue> {
+    pub fn draw(&self, render_items: &Vec<RenderItem>) -> Result<(), JsValue> {
         self.context.clear_color(0.0, 0.0, 0.0, 1.0);
 
         for render_item in render_items {
