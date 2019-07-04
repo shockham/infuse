@@ -5,6 +5,8 @@ use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader};
 
 use std::collections::HashMap;
 
+pub mod macros;
+
 pub struct RenderItem {
     vertices: Vec<f32>,
     shader_name: String,
