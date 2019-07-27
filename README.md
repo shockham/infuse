@@ -5,7 +5,7 @@
 
 Minimalist wasm based webgl renderer.
 
-Example usage:
+## Example usage:
 ```rust
 use wasm_bindgen::prelude::*;
 
@@ -29,7 +29,7 @@ pub fn start() -> Result<(), JsValue> {
 }
 ```
 
-Project creation:
+##Project creation:
 
 This can be done easily using [cargo-generate](https://github.com/ashleygwilliams/cargo-generate).
 - Install cargo-generate with:
