@@ -30,6 +30,7 @@ pub fn start() -> Result<(), JsValue> {
 ```
 
 Project creation:
+
 This can be done easily using [cargo-generate](https://github.com/ashleygwilliams/cargo-generate).
 - Install cargo-generate with:
 ```
