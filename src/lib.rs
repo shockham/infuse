@@ -1,7 +1,7 @@
 use js_sys::WebAssembly;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
-use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader, WebGlContextAttributes};
+use web_sys::{WebGlProgram, WebGl2RenderingContext, WebGlShader, WebGlContextAttributes};
 
 use std::collections::HashMap;
 
@@ -36,7 +36,7 @@ impl RenderItem {
 }
 
 pub struct Renderer {
-    context: WebGlRenderingContext,
+    context: WebGl2RenderingContext,
     shaders: HashMap<String, WebGlProgram>,
 }
 
@@ -48,14 +48,14 @@ impl Renderer {
 
         let context = canvas
             .get_context_with_context_options(
-                "webgl",
+                "webgl2",
                 WebGlContextAttributes::new()
                     .antialias(true)
                     .preserve_drawing_buffer(true)
                     .as_ref()
             )?
             .unwrap()
-            .dyn_into::<WebGlRenderingContext>()?;
+            .dyn_into::<WebGl2RenderingContext>()?;
 
         let shaders = HashMap::<String, WebGlProgram>::new();
 
@@ -110,26 +110,26 @@ impl Renderer {
                 .create_buffer()
                 .ok_or("failed to create buffer")?;
             self.context
-                .bind_buffer(WebGlRenderingContext::ARRAY_BUFFER, Some(&buffer));
+                .bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&buffer));
             self.context.buffer_data_with_array_buffer_view(
-                WebGlRenderingContext::ARRAY_BUFFER,
+                WebGl2RenderingContext::ARRAY_BUFFER,
                 &vert_array,
-                WebGlRenderingContext::STATIC_DRAW,
+                WebGl2RenderingContext::STATIC_DRAW,
             );
             self.context.vertex_attrib_pointer_with_i32(
                 0,
                 3,
-                WebGlRenderingContext::FLOAT,
+                WebGl2RenderingContext::FLOAT,
                 false,
                 0,
                 0,
             );
             self.context.enable_vertex_attrib_array(0);
 
-            self.context.clear(WebGlRenderingContext::COLOR_BUFFER_BIT);
+            self.context.clear(WebGl2RenderingContext::COLOR_BUFFER_BIT);
 
             self.context.draw_arrays(
-                WebGlRenderingContext::TRIANGLES,
+                WebGl2RenderingContext::TRIANGLES,
                 0,
                 (vertices.len() / 3) as i32,
             );
@@ -146,12 +146,12 @@ impl Renderer {
     ) -> Result<(), String> {
         let vert_shader = Self::compile_shader(
             &self.context,
-            WebGlRenderingContext::VERTEX_SHADER,
+            WebGl2RenderingContext::VERTEX_SHADER,
             vertex_shader.as_str(),
         )?;
         let frag_shader = Self::compile_shader(
             &self.context,
-            WebGlRenderingContext::FRAGMENT_SHADER,
+            WebGl2RenderingContext::FRAGMENT_SHADER,
             fragment_shader.as_str(),
         )?;
         let program = Self::link_program(&self.context, &vert_shader, &frag_shader)?;
@@ -162,7 +162,7 @@ impl Renderer {
     }
 
     fn compile_shader(
-        context: &WebGlRenderingContext,
+        context: &WebGl2RenderingContext,
         shader_type: u32,
         source: &str,
     ) -> Result<WebGlShader, String> {
@@ -173,7 +173,7 @@ impl Renderer {
         context.compile_shader(&shader);
 
         if context
-            .get_shader_parameter(&shader, WebGlRenderingContext::COMPILE_STATUS)
+            .get_shader_parameter(&shader, WebGl2RenderingContext::COMPILE_STATUS)
             .as_bool()
             .unwrap_or(false)
         {
@@ -186,7 +186,7 @@ impl Renderer {
     }
 
     fn link_program(
-        context: &WebGlRenderingContext,
+        context: &WebGl2RenderingContext,
         vert_shader: &WebGlShader,
         frag_shader: &WebGlShader,
     ) -> Result<WebGlProgram, String> {
@@ -199,7 +199,7 @@ impl Renderer {
         context.link_program(&program);
 
         if context
-            .get_program_parameter(&program, WebGlRenderingContext::LINK_STATUS)
+            .get_program_parameter(&program, WebGl2RenderingContext::LINK_STATUS)
             .as_bool()
             .unwrap_or(false)
         {
