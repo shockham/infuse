@@ -48,3 +48,5 @@ yarn install
 ```
 yarn run serve
 ```
+
+[License](https://github.com/shockham/infuse/blob/master/LICENSE.md)
