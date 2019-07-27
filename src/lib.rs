@@ -1,7 +1,7 @@
 use js_sys::WebAssembly;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
-use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader};
+use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader, WebGlContextAttributes};
 
 use std::collections::HashMap;
 
@@ -47,7 +47,13 @@ impl Renderer {
         let canvas: web_sys::HtmlCanvasElement = canvas.dyn_into::<web_sys::HtmlCanvasElement>()?;
 
         let context = canvas
-            .get_context("webgl")?
+            .get_context_with_context_options(
+                "webgl",
+                WebGlContextAttributes::new()
+                    .antialias(true)
+                    .preserve_drawing_buffer(true)
+                    .as_ref()
+            )?
             .unwrap()
             .dyn_into::<WebGlRenderingContext>()?;
 
