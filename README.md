@@ -28,3 +28,22 @@ pub fn start() -> Result<(), JsValue> {
     Ok(())
 }
 ```
+
+Project creation:
+This can be done easily using [cargo-generate](https://github.com/ashleygwilliams/cargo-generate).
+- Install cargo-generate with:
+```
+cargo install cargo-generate
+```
+- Create a new project with:
+```
+cargo generate --git https://github.com/shockham/infuse-template.git
+```
+- Install the deps:
+```
+yarn install
+```
+- Serve the app:
+```
+yarn run serve
+```
