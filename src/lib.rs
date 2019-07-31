@@ -9,7 +9,10 @@ pub mod macros;
 
 
 pub enum Uniform {
-    Vec4(f32, f32, f32 ,f32)
+    Vec4(f32, f32, f32 ,f32),
+    Vec3(f32, f32, f32),
+    Vec2(f32, f32),
+    Float(f32)
 }
 
 pub struct RenderItem {
@@ -102,6 +105,18 @@ impl Renderer {
                         Uniform::Vec4(x, y, z, w) => {
                             self.context
                                 .uniform4f(location.as_ref(), x, y, z, w);
+                        },
+                        Uniform::Vec3(x, y, z) => {
+                            self.context
+                                .uniform3f(location.as_ref(), x, y, z);
+                        },
+                        Uniform::Vec2(x, y) => {
+                            self.context
+                                .uniform2f(location.as_ref(), x, y);
+                        },
+                        Uniform::Float(x) => {
+                            self.context
+                                .uniform1f(location.as_ref(), x);
                         }
                     }
                 }
