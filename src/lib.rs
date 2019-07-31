@@ -7,17 +7,22 @@ use std::collections::HashMap;
 
 pub mod macros;
 
+
+pub enum Uniform {
+    Vec4(f32, f32, f32 ,f32)
+}
+
 pub struct RenderItem {
     vertices: Vec<f32>,
     shader_name: String,
-    uniforms: Option<HashMap<String, (f32, f32, f32, f32)>>,
+    uniforms: Option<HashMap<String, Uniform>>,
 }
 
 impl RenderItem {
     pub fn new(
         vertices: Vec<f32>,
         shader_name: String,
-        uniforms: Option<HashMap<String, (f32, f32, f32, f32)>>,
+        uniforms: Option<HashMap<String, Uniform>>,
     ) -> RenderItem {
         RenderItem {
             vertices,
@@ -28,7 +33,7 @@ impl RenderItem {
 }
 
 impl RenderItem {
-    pub fn set_uniform(&mut self, name: String, value: (f32, f32, f32, f32)) {
+    pub fn set_uniform(&mut self, name: String, value: Uniform) {
         if let Some(uniforms) = self.uniforms.as_mut() {
             uniforms.insert(name, value);
         }
@@ -92,8 +97,13 @@ impl Renderer {
             if let Some(uni) = &render_item.uniforms {
                 for (key, value) in uni.iter() {
                     let location = self.context.get_uniform_location(program, key.as_str());
-                    self.context
-                        .uniform4f(location.as_ref(), value.0, value.1, value.2, value.3);
+
+                    match *value {
+                        Uniform::Vec4(x, y, z, w) => {
+                            self.context
+                                .uniform4f(location.as_ref(), x, y, z, w);
+                        }
+                    }
                 }
             }
 

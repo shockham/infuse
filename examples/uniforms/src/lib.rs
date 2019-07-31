@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use infuse::{RenderItem, Renderer};
+use infuse::{RenderItem, Renderer, Uniform};
 use wasm_bindgen::prelude::*;
 
 const VERT: &str = include_str!("./shaders/vert.glsl");
@@ -19,7 +19,7 @@ pub fn start() -> Result<(), JsValue> {
 
     // create the uniforms for the render item
     let mut uniforms = HashMap::new();
-    uniforms.insert("colour".to_string(), (0.5f32, 0.5f32, 0.5f32, 1f32));
+    uniforms.insert("colour".to_string(), Uniform::Vec4(0.5f32, 0.5f32, 0.5f32, 1f32));
 
     let render_item = RenderItem::new(
         vec![
@@ -32,7 +32,7 @@ pub fn start() -> Result<(), JsValue> {
 
     let mut render_items = vec![render_item];
 
-    render_items[0].set_uniform("colour".to_string(), (0.6f32, 0.6f32, 0.6f32, 1f32));
+    render_items[0].set_uniform("colour".to_string(), Uniform::Vec4(0.6f32, 0.6f32, 0.6f32, 1f32));
 
     renderer.draw(&render_items)?;
 
