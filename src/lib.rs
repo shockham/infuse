@@ -54,13 +54,14 @@ impl Renderer {
         let canvas = document.get_element_by_id("canvas").unwrap();
         let canvas: web_sys::HtmlCanvasElement = canvas.dyn_into::<web_sys::HtmlCanvasElement>()?;
 
+        let context_attrs = WebGlContextAttributes::new();
+        context_attrs.set_antialias(true);
+        context_attrs.set_preserve_drawing_buffer(true);
+
         let context = canvas
             .get_context_with_context_options(
                 "webgl2",
-                WebGlContextAttributes::new()
-                    .antialias(true)
-                    .preserve_drawing_buffer(true)
-                    .as_ref()
+                    context_attrs.as_ref()
             )?
             .unwrap()
             .dyn_into::<WebGl2RenderingContext>()?;

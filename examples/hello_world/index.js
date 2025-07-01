@@ -1,2 +1,3 @@
-import('./pkg/hello_world')
+import('./pkg')
+  .then((module) => module.run())
   .catch(console.error);
